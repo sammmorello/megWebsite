@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:decapcms.org)",
+      "WebSearch",
+      "Bash(lsof:*)"
+    ]
+  }
+}

@@ -1,0 +1,221 @@
+# ==========================================================================
+# DECAP CMS CONFIGURATION
+# Retro Blog - Content Management System
+# ==========================================================================
+
+backend:
+  name: git-gateway
+  branch: main
+
+# Media settings
+media_folder: "assets/images/uploads"
+public_folder: "/assets/images/uploads"
+
+# Slug configuration
+slug:
+  encoding: "ascii"
+  clean_accents: true
+  sanitize_replacement: "-"
+
+# ==========================================================================
+# COLLECTIONS
+# ==========================================================================
+
+collections:
+  # --------------------------------------------------------------------------
+  # DIARY ENTRIES
+  # --------------------------------------------------------------------------
+  - name: "diary"
+    label: "Diary Entries"
+    label_singular: "Diary Entry"
+    folder: "content/diary"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    extension: "md"
+    format: "yaml-frontmatter"
+    sortable_fields: ["date", "title"]
+    summary: "{{title}} - {{date}}"
+    fields:
+      - label: "Title"
+        name: "title"
+        widget: "string"
+        hint: "The title of your diary entry"
+
+      - label: "Date"
+        name: "date"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        date_format: "MMMM D, YYYY"
+        time_format: false
+        hint: "When was this entry written?"
+
+      - label: "Tags"
+        name: "tags"
+        widget: "list"
+        required: false
+        hint: "Optional tags for categorization"
+
+      - label: "Body"
+        name: "body"
+        widget: "markdown"
+        buttons:
+          - bold
+          - italic
+          - link
+          - heading-two
+          - heading-three
+          - quote
+          - bulleted-list
+          - numbered-list
+        hint: "Write your diary entry here"
+
+  # --------------------------------------------------------------------------
+  # PHOTO LOG
+  # --------------------------------------------------------------------------
+  - name: "photos"
+    label: "Photo Log"
+    label_singular: "Photo"
+    folder: "content/photos"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    extension: "md"
+    format: "yaml-frontmatter"
+    sortable_fields: ["date"]
+    summary: "{{caption}} - {{date}}"
+    fields:
+      - label: "Image"
+        name: "image"
+        widget: "image"
+        allow_multiple: false
+        hint: "Upload your photo"
+
+      - label: "Caption"
+        name: "caption"
+        widget: "string"
+        hint: "A short description of this photo"
+
+      - label: "Date"
+        name: "date"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        date_format: "MMMM D, YYYY"
+        time_format: false
+
+      - label: "Tags"
+        name: "tags"
+        widget: "list"
+        required: false
+
+  # --------------------------------------------------------------------------
+  # ART & MUSIC LOG
+  # --------------------------------------------------------------------------
+  - name: "music"
+    label: "Art & Music"
+    label_singular: "Art/Music Item"
+    folder: "content/music"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "yaml-frontmatter"
+    fields:
+      - label: "Title"
+        name: "title"
+        widget: "string"
+        hint: "Name of the song, album, or artwork"
+
+      - label: "Type"
+        name: "type"
+        widget: "select"
+        options:
+          - { label: "Music", value: "music" }
+          - { label: "Art", value: "art" }
+          - { label: "Video", value: "video" }
+
+      - label: "Description"
+        name: "description"
+        widget: "text"
+        hint: "Brief description or thoughts about this piece"
+
+      - label: "External Link"
+        name: "link"
+        widget: "string"
+        hint: "URL to the content (Bandcamp, SoundCloud, etc.)"
+
+      - label: "Embed Code"
+        name: "embed"
+        widget: "text"
+        required: false
+        hint: "Optional: Paste embed code from Spotify, Bandcamp, etc."
+
+      - label: "Date Added"
+        name: "date"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        date_format: "MMMM D, YYYY"
+        time_format: false
+
+      - label: "Featured"
+        name: "featured"
+        widget: "boolean"
+        default: false
+        hint: "Show this on the homepage?"
+
+  # --------------------------------------------------------------------------
+  # ARCHIVE
+  # --------------------------------------------------------------------------
+  - name: "archive"
+    label: "Archive Items"
+    label_singular: "Archive Item"
+    folder: "content/archive"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "yaml-frontmatter"
+    fields:
+      - label: "Title"
+        name: "title"
+        widget: "string"
+
+      - label: "Category"
+        name: "category"
+        widget: "select"
+        options:
+          - "thoughts"
+          - "links"
+          - "memories"
+          - "misc"
+
+      - label: "Date"
+        name: "date"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+
+      - label: "Body"
+        name: "body"
+        widget: "markdown"
+
+  # --------------------------------------------------------------------------
+  # SITE SETTINGS (File Collection)
+  # --------------------------------------------------------------------------
+  - name: "settings"
+    label: "Site Settings"
+    files:
+      - label: "General Settings"
+        name: "general"
+        file: "content/settings/general.yml"
+        fields:
+          - label: "Site Title"
+            name: "site_title"
+            widget: "string"
+
+          - label: "Site Description"
+            name: "site_description"
+            widget: "text"
+
+          - label: "Author Name"
+            name: "author"
+            widget: "string"
+
+          - label: "Footer Text"
+            name: "footer_text"
+            widget: "string"

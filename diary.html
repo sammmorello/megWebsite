@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diary | My Blog</title>
+    <meta name="description" content="Personal diary entries and thoughts">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Netlify Identity -->
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+</head>
+<body data-page="diary">
+    <div class="page-wrapper">
+        <!-- Header -->
+        <header class="site-header">
+            <div class="header-content">
+                <h1 class="site-title">
+                    <a href="index.html">My Blog</a>
+                </h1>
+                <p class="site-tagline">~ thoughts, music & art ~</p>
+            </div>
+            <div class="header-decoration">
+                <span class="star">*</span>
+                <span class="star">*</span>
+                <span class="star">*</span>
+            </div>
+        </header>
+
+        <!-- Main Container -->
+        <div class="main-container">
+            <!-- Sidebar Navigation -->
+            <nav class="sidebar">
+                <div class="nav-section">
+                    <span class="nav-label">:: navigation ::</span>
+                    <ul class="nav-list">
+                        <li><a href="index.html" class="nav-link">Home</a></li>
+                        <li><a href="diary.html" class="nav-link active">Diary</a></li>
+                        <li><a href="photos.html" class="nav-link">Photo Log</a></li>
+                        <li><a href="art-music.html" class="nav-link">Art & Music</a></li>
+                        <li><a href="archive.html" class="nav-link">Archive</a></li>
+                        <li><a href="random.html" class="nav-link">Random</a></li>
+                    </ul>
+                </div>
+
+                <div class="sidebar-decoration">
+                    <div class="mini-box">
+                        <span class="blink-slow">online</span>
+                    </div>
+                </div>
+
+                <div class="sidebar-links">
+                    <span class="nav-label">:: links ::</span>
+                    <div class="button-88x31">
+                        <span>made with</span>
+                        <span>love</span>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Main Content Area -->
+            <main class="content-area">
+                <header class="page-header">
+                    <h2 class="page-title">
+                        <span class="title-decoration">&gt;&gt;</span>
+                        Diary
+                        <span class="title-decoration">&lt;&lt;</span>
+                    </h2>
+                    <p class="page-description">Personal thoughts and musings. Updated whenever inspiration strikes.</p>
+                </header>
+
+                <div id="diary-container" class="diary-container">
+                    <!-- Loaded dynamically via JavaScript -->
+                    <div class="loading-placeholder">
+                        <span>Loading diary entries...</span>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Footer -->
+        <footer class="site-footer">
+            <div class="footer-content">
+                <p class="footer-text">Made with love</p>
+                <p class="footer-meta">last updated: 2024</p>
+            </div>
+            <div class="footer-decoration">
+                - - - - - - - - - - - - - - -
+            </div>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.6/dist/purify.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
