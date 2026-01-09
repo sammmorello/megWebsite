@@ -1,5 +1,5 @@
 /* ==========================================================================
-   RETRO BLOG - STYLESHEET
+   DEEP SEA DRIVING - STYLESHEET
    A vintage/early-2000s inspired design
    ========================================================================== */
 
@@ -8,7 +8,7 @@
    ========================================================================== */
 
 :root {
-    /* Colors - Muted/Dusty Palette */
+    /* Colors - Muted/Dusty Palette (Original) */
     --color-bg-primary: #f5f0eb;
     --color-bg-secondary: #e8e0d8;
     --color-bg-content: #fffcf9;
@@ -22,6 +22,8 @@
     --color-accent-light: #d4ccd8;
     --color-link: #4a3f55;
     --color-link-hover: #6b5b7a;
+    --color-note-bg: #f9f6e8;
+    --color-note-border: #d4c9a8;
 
     /* Layout */
     --container-width: 960px;
@@ -40,6 +42,7 @@
     /* Typography */
     --font-pixel: 'Press Start 2P', monospace;
     --font-terminal: 'VT323', 'Courier New', monospace;
+    --font-typewriter: 'Special Elite', 'Courier New', monospace;
     --font-body: Georgia, 'Times New Roman', serif;
     --font-heading: 'Courier New', 'Courier Prime', monospace;
 
@@ -78,6 +81,7 @@ body {
             rgba(0, 0, 0, 0.02) 2px,
             rgba(0, 0, 0, 0.02) 4px
         );
+    text-transform: lowercase;
 }
 
 img {
@@ -111,6 +115,7 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: normal;
     line-height: 1.3;
     margin: 0 0 var(--space-md) 0;
+    text-transform: lowercase;
 }
 
 h1 {
@@ -182,6 +187,7 @@ p {
     font-size: 1.2rem;
     margin: 0 0 var(--space-sm) 0;
     letter-spacing: 2px;
+    text-transform: lowercase;
 }
 
 .site-title a {
@@ -206,6 +212,7 @@ p {
     color: var(--color-accent-lavender);
 }
 
+.header-decoration .wave,
 .header-decoration .star {
     margin: 0 var(--space-xs);
 }
@@ -219,6 +226,52 @@ p {
 
 .footer-content {
     margin-bottom: var(--space-sm);
+}
+
+.footer-logo {
+    width: 80px;
+    height: auto;
+    margin: 0 auto var(--space-md);
+    opacity: 0.85;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.footer-logo:hover {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+/* Social Links */
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-md);
+    margin: var(--space-md) 0;
+}
+
+.social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-family: var(--font-terminal);
+    font-size: 1rem;
+    padding: var(--space-xs) var(--space-sm);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    border: 1px solid var(--color-border-light);
+    background: var(--color-bg-content);
+    transition: all 0.15s ease;
+}
+
+.social-link:hover {
+    background: var(--color-accent-light);
+    color: var(--color-accent-purple);
+    border-color: var(--color-accent-purple);
+}
+
+.social-link .social-icon {
+    font-size: 1.1rem;
+    text-transform: none;
 }
 
 .footer-text {
@@ -278,6 +331,7 @@ p {
     border: var(--border-width-thin) solid var(--color-border);
     box-shadow: var(--shadow-soft);
     transition: all 0.1s ease;
+    text-transform: lowercase;
 }
 
 .nav-link:hover {
@@ -345,8 +399,112 @@ p {
     display: block;
 }
 
+/* Sidebar Social Links */
+.sidebar-social {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.sidebar-social-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    font-family: var(--font-terminal);
+    font-size: 1rem;
+    padding: var(--space-xs) var(--space-sm);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    border: 1px solid var(--color-border-light);
+    background: var(--color-bg-content);
+    transition: all 0.15s ease;
+}
+
+.sidebar-social-link:hover {
+    background: var(--color-accent-light);
+    color: var(--color-accent-purple);
+    border-color: var(--color-accent-purple);
+}
+
+.sidebar-social-link .social-icon {
+    font-size: 1rem;
+    text-transform: none;
+}
+
 /* ==========================================================================
-   7. Content Components
+   7. Bio & Weekly Note Sections
+   ========================================================================== */
+
+/* Bio Section */
+.bio-section {
+    text-align: center;
+    background: var(--color-accent-light);
+    border-color: var(--color-accent-purple);
+}
+
+.bio-section h2 {
+    font-family: var(--font-terminal);
+    font-size: 1.5rem;
+    border-bottom: none;
+}
+
+.bio-blurb {
+    font-family: var(--font-typewriter);
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--color-text-secondary);
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+/* Weekly Note - Sticky Note Style */
+.weekly-note {
+    position: relative;
+    margin: var(--space-lg) 0;
+    padding: var(--space-md) var(--space-lg);
+    background: var(--color-note-bg);
+    border: 1px solid var(--color-note-border);
+    box-shadow:
+        2px 2px 0 rgba(0, 0, 0, 0.05),
+        inset 0 0 40px rgba(212, 201, 168, 0.2);
+    transform: rotate(-0.5deg);
+}
+
+.note-pin {
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 16px;
+    height: 16px;
+    background: radial-gradient(circle at 30% 30%, #d4a574, #8b6914);
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.note-content {
+    text-align: center;
+}
+
+.note-label {
+    display: block;
+    font-family: var(--font-terminal);
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-sm);
+    text-transform: lowercase;
+}
+
+.weekly-note p {
+    font-family: var(--font-typewriter);
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    margin: 0;
+}
+
+/* ==========================================================================
+   8. Content Components
    ========================================================================== */
 
 /* Page Header */
@@ -404,7 +562,7 @@ p {
     border-bottom: none;
 }
 
-/* Diary Entries */
+/* Diary/Sunken Logs Entries */
 .diary-container,
 .diary-preview {
     display: flex;
@@ -454,6 +612,7 @@ p {
     font-family: var(--font-terminal);
     font-size: 1rem;
     margin-top: var(--space-md);
+    text-transform: lowercase;
 }
 
 /* Photo Log */
@@ -504,11 +663,183 @@ p {
     margin-top: var(--space-xs);
 }
 
-/* Music/Art Items */
+/* ==========================================================================
+   9. Music/Art Page Styles
+   ========================================================================== */
+
 .music-container {
     display: flex;
     flex-direction: column;
     gap: var(--space-lg);
+}
+
+/* Fish Purse Hero Section for Music Page */
+.fish-purse-hero {
+    text-align: center;
+    padding: var(--space-xl) 0;
+    margin-bottom: var(--space-xl);
+}
+
+.fish-purse-hero .band-logo {
+    width: 280px;
+    max-width: 80%;
+    height: auto;
+    margin: 0 auto var(--space-lg);
+}
+
+.fish-purse-hero .band-name {
+    font-family: var(--font-terminal);
+    font-size: 1.8rem;
+    color: var(--color-accent-purple);
+    margin: 0 0 var(--space-sm) 0;
+    text-transform: lowercase;
+}
+
+.fish-purse-hero .band-tagline {
+    font-family: var(--font-typewriter);
+    font-size: 1rem;
+    color: var(--color-text-muted);
+    margin: 0;
+    font-style: italic;
+}
+
+.fish-purse-hero .band-bio {
+    font-family: var(--font-typewriter);
+    font-size: 1.1rem;
+    color: var(--color-text-secondary);
+    margin: var(--space-sm) 0 0 0;
+    line-height: 1.6;
+    text-transform: none;
+}
+
+/* ==========================================================================
+   Upcoming Shows Section
+   ========================================================================== */
+
+.shows-section {
+    margin-bottom: var(--space-xl);
+    padding: var(--space-lg);
+    background: var(--color-bg-secondary);
+    border: var(--border-width-thin) dashed var(--color-border);
+}
+
+.shows-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-lg);
+}
+
+.shows-icon {
+    font-size: 1.5rem;
+    text-transform: none;
+}
+
+.shows-title {
+    font-family: var(--font-terminal);
+    font-size: 1.4rem;
+    color: var(--color-accent-purple);
+    margin: 0;
+    border-bottom: none;
+}
+
+.shows-calendar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.show-item {
+    display: flex;
+    gap: var(--space-md);
+    padding: var(--space-md);
+    background: var(--color-bg-content);
+    border: 1px solid var(--color-border-light);
+    box-shadow: var(--shadow-soft);
+}
+
+.show-date-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 60px;
+    padding: var(--space-sm);
+    background: var(--color-accent-purple);
+    border: 2px solid var(--color-border);
+}
+
+.show-month {
+    font-family: var(--font-pixel);
+    font-size: 0.5rem;
+    color: var(--color-accent-light);
+    text-transform: uppercase;
+}
+
+.show-day {
+    font-family: var(--font-terminal);
+    font-size: 1.8rem;
+    color: var(--color-bg-content);
+    line-height: 1;
+}
+
+.show-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+}
+
+.show-venue {
+    font-family: var(--font-terminal);
+    font-size: 1.2rem;
+    color: var(--color-text-primary);
+}
+
+.show-location {
+    font-family: var(--font-typewriter);
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+}
+
+.show-time {
+    font-family: var(--font-terminal);
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+}
+
+.shows-note {
+    text-align: center;
+    font-family: var(--font-terminal);
+    font-size: 1rem;
+    color: var(--color-text-muted);
+    margin: var(--space-md) 0 0 0;
+    font-style: italic;
+}
+
+.music-section {
+    margin-top: var(--space-lg);
+}
+
+/* Legacy music page header (with box) */
+.music-page-header {
+    text-align: center;
+    margin-bottom: var(--space-xl);
+}
+
+.band-logo {
+    width: 80px;
+    height: auto;
+    margin: 0 auto var(--space-md);
+    opacity: 0.85;
+}
+
+.band-name {
+    font-family: var(--font-terminal);
+    font-size: 1.2rem;
+    color: var(--color-accent-purple);
+    margin: 0;
 }
 
 .music-item {
@@ -533,7 +864,7 @@ p {
     background: var(--color-accent-light);
     border: 1px solid var(--color-accent-purple);
     color: var(--color-accent-purple);
-    text-transform: uppercase;
+    text-transform: lowercase;
 }
 
 .music-description {
@@ -563,6 +894,7 @@ p {
     border: var(--border-width-thin) solid var(--color-border);
     box-shadow: var(--shadow-soft);
     transition: all 0.1s ease;
+    text-transform: lowercase;
 }
 
 .music-link:hover {
@@ -603,6 +935,7 @@ p {
     background: var(--color-accent-light);
     font-size: 0.8rem;
     margin-right: var(--space-sm);
+    text-transform: lowercase;
 }
 
 /* Random Page */
@@ -632,7 +965,7 @@ p {
 }
 
 /* ==========================================================================
-   8. Loading & Utility States
+   10. Loading & Utility States
    ========================================================================== */
 
 .loading-placeholder {
@@ -642,6 +975,7 @@ p {
     font-size: 1rem;
     color: var(--color-text-muted);
     animation: pulse 1.5s ease-in-out infinite;
+    text-transform: lowercase;
 }
 
 @keyframes pulse {
@@ -660,8 +994,15 @@ p {
     gap: var(--space-md);
 }
 
+.no-content {
+    text-align: center;
+    font-family: var(--font-terminal);
+    color: var(--color-text-muted);
+    font-style: italic;
+}
+
 /* ==========================================================================
-   9. Responsive Adjustments
+   11. Responsive Adjustments
    ========================================================================== */
 
 /* Tablet: 768px - 959px */
@@ -683,6 +1024,10 @@ p {
 
     .site-title {
         font-size: 1rem;
+    }
+
+    .fish-purse-hero .band-logo {
+        width: 200px;
     }
 }
 
@@ -751,10 +1096,26 @@ p {
         flex-direction: column;
         gap: var(--space-xs);
     }
+
+    .weekly-note {
+        transform: none;
+    }
+
+    .bio-blurb {
+        max-width: 100%;
+    }
+
+    .fish-purse-hero .band-logo {
+        width: 180px;
+    }
+
+    .fish-purse-hero .band-name {
+        font-size: 1.4rem;
+    }
 }
 
 /* ==========================================================================
-   10. Print Styles
+   12. Print Styles
    ========================================================================== */
 
 @media print {

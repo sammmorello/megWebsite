@@ -1,7 +1,7 @@
 ---
-title: "Demo Tape Vol. 1"
+title: "demo tape vol. 1"
 type: music
-description: "Four tracks recorded in my bedroom. Lo-fi vibes, late night feels."
+description: "four tracks recorded in my bedroom. lo-fi vibes, late night feels."
 link: https://example.bandcamp.com
 embed: ""
 date: 2024-01-20

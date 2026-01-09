@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home | My Blog</title>
-    <meta name="description" content="A personal space for thoughts, music, and art">
+    <title>deep sea driving</title>
+    <meta name="description" content="meg's corner of the internet - thoughts, music & art">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Special+Elite&display=swap" rel="stylesheet">
 
     <!-- Styles -->
     <link rel="stylesheet" href="css/style.css">
@@ -23,14 +23,14 @@
         <header class="site-header">
             <div class="header-content">
                 <h1 class="site-title">
-                    <a href="index.html">My Blog</a>
+                    <a href="index.html">deep sea driving</a>
                 </h1>
-                <p class="site-tagline">~ thoughts, music & art ~</p>
+                <p class="site-tagline">~ drifting through the deep ~</p>
             </div>
             <div class="header-decoration">
-                <span class="star">*</span>
-                <span class="star">*</span>
-                <span class="star">*</span>
+                <span class="wave">~</span>
+                <span class="wave">~</span>
+                <span class="wave">~</span>
             </div>
         </header>
 
@@ -41,12 +41,12 @@
                 <div class="nav-section">
                     <span class="nav-label">:: navigation ::</span>
                     <ul class="nav-list">
-                        <li><a href="index.html" class="nav-link active">Home</a></li>
-                        <li><a href="diary.html" class="nav-link">Diary</a></li>
-                        <li><a href="photos.html" class="nav-link">Photo Log</a></li>
-                        <li><a href="art-music.html" class="nav-link">Art & Music</a></li>
-                        <li><a href="archive.html" class="nav-link">Archive</a></li>
-                        <li><a href="random.html" class="nav-link">Random</a></li>
+                        <li><a href="index.html" class="nav-link active">home</a></li>
+                        <li><a href="sunken-logs.html" class="nav-link">sunken logs</a></li>
+                        <li><a href="photos.html" class="nav-link">photo log</a></li>
+                        <li><a href="art-music.html" class="nav-link">art & music</a></li>
+                        <li><a href="archive.html" class="nav-link">archive</a></li>
+                        <li><a href="random.html" class="nav-link">random</a></li>
                     </ul>
                 </div>
 
@@ -58,40 +58,53 @@
 
                 <div class="sidebar-links">
                     <span class="nav-label">:: links ::</span>
-                    <div class="button-88x31">
-                        <span>made with</span>
-                        <span>love</span>
+                    <div class="sidebar-social">
+                        <a href="https://open.spotify.com" target="_blank" rel="noopener noreferrer" class="sidebar-social-link">
+                            <span class="social-icon">🎵</span> spotify
+                        </a>
+                        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="sidebar-social-link">
+                            <span class="social-icon">📷</span> instagram
+                        </a>
                     </div>
                 </div>
             </nav>
 
             <!-- Main Content Area -->
             <main class="content-area">
-                <section class="welcome-section content-box">
-                    <h2>Welcome!</h2>
-                    <p>Hey there! This is my little corner of the internet where I share diary entries, photos, music, and random thoughts.</p>
-                    <p>Feel free to explore around. This site is always under construction, just like me.</p>
+                <!-- Bio Blurb Section -->
+                <section class="bio-section content-box">
+                    <h2>hey, i'm meg</h2>
+                    <p id="bio-blurb" class="bio-blurb">welcome to my little corner of the internet. i write about whatever's on my mind, share photos, make music, and collect things that inspire me. this site is always a work in progress, kind of like me.</p>
+                </section>
+
+                <!-- Weekly Note Section -->
+                <section class="weekly-note">
+                    <div class="note-pin"></div>
+                    <div class="note-content">
+                        <span class="note-label">~ what's up lately ~</span>
+                        <p id="weekly-note">just getting this site set up and figuring things out. more updates soon.</p>
+                    </div>
                 </section>
 
                 <section class="latest-section">
                     <h2 class="section-title">
                         <span class="title-decoration">&gt;&gt;</span>
-                        Latest Diary Entries
+                        latest from the sunken logs
                         <span class="title-decoration">&lt;&lt;</span>
                     </h2>
                     <div id="diary-preview" class="diary-preview">
                         <!-- Loaded dynamically via JavaScript -->
                         <div class="loading-placeholder">
-                            <span>Loading entries...</span>
+                            <span>loading entries...</span>
                         </div>
                     </div>
-                    <a href="diary.html" class="view-all-link">view all entries &rarr;</a>
+                    <a href="sunken-logs.html" class="view-all-link">view all entries &rarr;</a>
                 </section>
 
                 <section class="featured-section">
                     <h2 class="section-title">
                         <span class="title-decoration">&gt;&gt;</span>
-                        Featured
+                        featured
                         <span class="title-decoration">&lt;&lt;</span>
                     </h2>
                     <div id="featured-content" class="featured-content">
@@ -104,11 +117,20 @@
         <!-- Footer -->
         <footer class="site-footer">
             <div class="footer-content">
-                <p class="footer-text">Made with love</p>
+                <img src="assets/images/fishpurse_transparent.png" alt="fish purse" class="footer-logo">
+                <div class="social-links">
+                    <a href="https://open.spotify.com" target="_blank" rel="noopener noreferrer" class="social-link">
+                        <span class="social-icon">🎵</span> spotify
+                    </a>
+                    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-link">
+                        <span class="social-icon">📷</span> instagram
+                    </a>
+                </div>
+                <p class="footer-text">made with love</p>
                 <p class="footer-meta">last updated: 2024</p>
             </div>
             <div class="footer-decoration">
-                - - - - - - - - - - - - - - -
+                ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
             </div>
         </footer>
     </div>

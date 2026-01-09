@@ -1,6 +1,6 @@
 # ==========================================================================
 # DECAP CMS CONFIGURATION
-# Retro Blog - Content Management System
+# Deep Sea Driving - Content Management System
 # ==========================================================================
 
 backend:
@@ -23,11 +23,11 @@ slug:
 
 collections:
   # --------------------------------------------------------------------------
-  # DIARY ENTRIES
+  # SUNKEN LOGS (formerly Diary)
   # --------------------------------------------------------------------------
   - name: "diary"
-    label: "Diary Entries"
-    label_singular: "Diary Entry"
+    label: "Sunken Logs"
+    label_singular: "Sunken Log Entry"
     folder: "content/diary"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
@@ -39,7 +39,7 @@ collections:
       - label: "Title"
         name: "title"
         widget: "string"
-        hint: "The title of your diary entry"
+        hint: "the title of your sunken log entry"
 
       - label: "Date"
         name: "date"
@@ -47,13 +47,13 @@ collections:
         format: "YYYY-MM-DD"
         date_format: "MMMM D, YYYY"
         time_format: false
-        hint: "When was this entry written?"
+        hint: "when was this entry written?"
 
       - label: "Tags"
         name: "tags"
         widget: "list"
         required: false
-        hint: "Optional tags for categorization"
+        hint: "optional tags for categorization"
 
       - label: "Body"
         name: "body"
@@ -67,7 +67,7 @@ collections:
           - quote
           - bulleted-list
           - numbered-list
-        hint: "Write your diary entry here"
+        hint: "write your sunken log entry here"
 
   # --------------------------------------------------------------------------
   # PHOTO LOG
@@ -87,12 +87,12 @@ collections:
         name: "image"
         widget: "image"
         allow_multiple: false
-        hint: "Upload your photo"
+        hint: "upload your photo"
 
       - label: "Caption"
         name: "caption"
         widget: "string"
-        hint: "A short description of this photo"
+        hint: "a short description of this photo"
 
       - label: "Date"
         name: "date"
@@ -107,7 +107,7 @@ collections:
         required: false
 
   # --------------------------------------------------------------------------
-  # ART & MUSIC LOG
+  # ART & MUSIC (Fish Purse lives here)
   # --------------------------------------------------------------------------
   - name: "music"
     label: "Art & Music"
@@ -121,7 +121,7 @@ collections:
       - label: "Title"
         name: "title"
         widget: "string"
-        hint: "Name of the song, album, or artwork"
+        hint: "name of the song, album, or artwork"
 
       - label: "Type"
         name: "type"
@@ -134,7 +134,7 @@ collections:
       - label: "Description"
         name: "description"
         widget: "text"
-        hint: "Brief description or thoughts about this piece"
+        hint: "brief description or thoughts about this piece"
 
       - label: "External Link"
         name: "link"
@@ -145,7 +145,7 @@ collections:
         name: "embed"
         widget: "text"
         required: false
-        hint: "Optional: Paste embed code from Spotify, Bandcamp, etc."
+        hint: "optional: paste embed code from Spotify, Bandcamp, etc."
 
       - label: "Date Added"
         name: "date"
@@ -158,7 +158,7 @@ collections:
         name: "featured"
         widget: "boolean"
         default: false
-        hint: "Show this on the homepage?"
+        hint: "show this on the homepage?"
 
   # --------------------------------------------------------------------------
   # ARCHIVE
@@ -195,6 +195,54 @@ collections:
         widget: "markdown"
 
   # --------------------------------------------------------------------------
+  # UPCOMING SHOWS
+  # --------------------------------------------------------------------------
+  - name: "shows"
+    label: "Upcoming Shows"
+    label_singular: "Show"
+    folder: "content/shows"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    extension: "md"
+    format: "yaml-frontmatter"
+    sortable_fields: ["date"]
+    summary: "{{venue}} - {{date}}"
+    fields:
+      - label: "Venue"
+        name: "venue"
+        widget: "string"
+        hint: "name of the venue"
+
+      - label: "Location"
+        name: "location"
+        widget: "string"
+        hint: "city, state (e.g. brooklyn, ny)"
+
+      - label: "Date"
+        name: "date"
+        widget: "datetime"
+        format: "YYYY-MM-DD"
+        date_format: "MMMM D, YYYY"
+        time_format: false
+
+      - label: "Time"
+        name: "time"
+        widget: "string"
+        hint: "e.g. doors @ 8pm"
+
+      - label: "Ticket Link"
+        name: "ticket_link"
+        widget: "string"
+        required: false
+        hint: "optional link to tickets"
+
+      - label: "Notes"
+        name: "notes"
+        widget: "string"
+        required: false
+        hint: "any additional info"
+
+  # --------------------------------------------------------------------------
   # SITE SETTINGS (File Collection)
   # --------------------------------------------------------------------------
   - name: "settings"
@@ -207,15 +255,70 @@ collections:
           - label: "Site Title"
             name: "site_title"
             widget: "string"
+            default: "deep sea driving"
 
-          - label: "Site Description"
-            name: "site_description"
-            widget: "text"
+          - label: "Site Tagline"
+            name: "site_tagline"
+            widget: "string"
+            default: "~ drifting through the deep ~"
 
           - label: "Author Name"
             name: "author"
             widget: "string"
+            default: "meg"
 
           - label: "Footer Text"
             name: "footer_text"
             widget: "string"
+            default: "made with love"
+
+          - label: "Spotify URL"
+            name: "spotify_url"
+            widget: "string"
+            hint: "link to your spotify artist page"
+
+          - label: "Instagram URL"
+            name: "instagram_url"
+            widget: "string"
+            hint: "link to your instagram profile"
+
+      - label: "Homepage Content"
+        name: "homepage"
+        file: "content/settings/homepage.yml"
+        fields:
+          - label: "Bio Heading"
+            name: "bio_heading"
+            widget: "string"
+            default: "hey, i'm meg"
+            hint: "the heading for your bio section"
+
+          - label: "Bio Blurb"
+            name: "bio_blurb"
+            widget: "text"
+            hint: "a few lines about you, written in first person"
+
+          - label: "Weekly Note Label"
+            name: "weekly_note_label"
+            widget: "string"
+            default: "~ what's up lately ~"
+            hint: "the label above your weekly note"
+
+          - label: "Weekly Note"
+            name: "weekly_note"
+            widget: "text"
+            hint: "a quick hello, recent thought, or weekly check-in"
+
+      - label: "Music Page"
+        name: "music"
+        file: "content/settings/music.yml"
+        fields:
+          - label: "Band Bio"
+            name: "band_bio"
+            widget: "text"
+            hint: "short bio for fish purse (emojis welcome!)"
+
+          - label: "Shows Note"
+            name: "shows_note"
+            widget: "string"
+            default: "~ more dates coming soon ~"
+            hint: "note shown below the shows list"
