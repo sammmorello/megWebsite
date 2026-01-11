@@ -8,22 +8,34 @@
    ========================================================================== */
 
 :root {
-    /* Colors - Muted/Dusty Palette (Original) */
-    --color-bg-primary: #f5f0eb;
-    --color-bg-secondary: #e8e0d8;
-    --color-bg-content: #fffcf9;
-    --color-border: #9a8c7c;
-    --color-border-light: #c4b8a8;
-    --color-text-primary: #2d2926;
-    --color-text-secondary: #5c5552;
-    --color-text-muted: #8a8380;
-    --color-accent-purple: #6b5b7a;
-    --color-accent-lavender: #9b8ba0;
-    --color-accent-light: #d4ccd8;
-    --color-link: #4a3f55;
-    --color-link-hover: #6b5b7a;
-    --color-note-bg: #f9f6e8;
-    --color-note-border: #d4c9a8;
+    /* Colors - Vaporwave Pink/Lavender Palette */
+    --color-bg-primary: #e8d5e0;
+    --color-bg-secondary: #c9a0dc;
+    --color-bg-content: #ffd9ec;
+    --color-border: #9b6b9e;
+    --color-border-light: #d4a5d9;
+    --color-border-dark: #6b4670;
+    --color-text-primary: #4a2050;
+    --color-text-secondary: #6b4670;
+    --color-text-muted: #9b6b9e;
+    --color-accent-purple: #9370db;
+    --color-accent-lavender: #b19cd9;
+    --color-accent-light: #e6d5f2;
+    --color-accent-pink: #ff91af;
+    --color-accent-hotpink: #ff69b4;
+    --color-link: #9b4dca;
+    --color-link-hover: #ff69b4;
+    --color-note-bg: #ffe4f0;
+    --color-note-border: #ffb6c1;
+
+    /* Windows 95 style colors */
+    --win-titlebar: #9370db;
+    --win-titlebar-text: #ffffff;
+    --win-button-face: #ffb6c1;
+    --win-button-highlight: #ffd9ec;
+    --win-button-shadow: #9b6b9e;
+    --win-inset-light: #ffd9ec;
+    --win-inset-dark: #6b4670;
 
     /* Layout */
     --container-width: 960px;
@@ -43,12 +55,14 @@
     --font-pixel: 'Press Start 2P', monospace;
     --font-terminal: 'VT323', 'Courier New', monospace;
     --font-typewriter: 'Special Elite', 'Courier New', monospace;
-    --font-body: Georgia, 'Times New Roman', serif;
-    --font-heading: 'Courier New', 'Courier Prime', monospace;
+    --font-body: 'VT323', 'Courier New', monospace;
+    --font-heading: 'Press Start 2P', monospace;
 
-    /* Shadows */
-    --shadow-hard: 4px 4px 0 var(--color-border);
-    --shadow-soft: 2px 2px 0 var(--color-border-light);
+    /* Shadows - Windows 95 style bevels */
+    --shadow-hard: 3px 3px 0 var(--color-border-dark);
+    --shadow-soft: 2px 2px 0 var(--color-border);
+    --bevel-out: inset -2px -2px 0 var(--win-button-shadow), inset 2px 2px 0 var(--win-button-highlight);
+    --bevel-in: inset 2px 2px 0 var(--win-button-shadow), inset -2px -2px 0 var(--win-button-highlight);
 }
 
 /* ==========================================================================
@@ -69,18 +83,13 @@ body {
     margin: 0;
     padding: var(--space-lg);
     font-family: var(--font-body);
-    font-size: 1rem;
+    font-size: 1.1rem;
     line-height: 1.6;
     color: var(--color-text-primary);
-    background-color: var(--color-bg-secondary);
+    background-color: #c9a0dc;
     background-image:
-        repeating-linear-gradient(
-            0deg,
-            transparent,
-            transparent 2px,
-            rgba(0, 0, 0, 0.02) 2px,
-            rgba(0, 0, 0, 0.02) 4px
-        );
+        linear-gradient(135deg, #c9a0dc 0%, #e8d5e0 50%, #ffd9ec 100%);
+    background-attachment: fixed;
     text-transform: lowercase;
 }
 
@@ -141,11 +150,15 @@ p {
    ========================================================================== */
 
 .page-wrapper {
+    position: relative;
     max-width: var(--container-width);
     margin: 0 auto;
-    background: var(--color-bg-primary);
-    border: var(--border-width) solid var(--color-border);
-    box-shadow: var(--shadow-hard);
+    background: var(--color-bg-content);
+    border: 3px solid var(--color-border-dark);
+    box-shadow:
+        inset -2px -2px 0 var(--win-button-shadow),
+        inset 2px 2px 0 var(--win-button-highlight),
+        4px 4px 0 rgba(0, 0, 0, 0.2);
 }
 
 .main-container {
@@ -157,8 +170,8 @@ p {
     width: var(--sidebar-width);
     flex-shrink: 0;
     padding: var(--space-md);
-    background: var(--color-bg-secondary);
-    border-right: var(--border-width-thin) solid var(--color-border);
+    background: linear-gradient(180deg, #e8d5e0 0%, #d4a5d9 100%);
+    border-right: 3px solid var(--color-border-dark);
 }
 
 .content-area {
@@ -173,43 +186,75 @@ p {
 
 .site-header {
     text-align: center;
-    padding: var(--space-lg) var(--space-md);
-    background: var(--color-accent-purple);
-    border-bottom: var(--border-width) solid var(--color-border);
+    padding: var(--space-sm) var(--space-md) var(--space-lg);
+    background: linear-gradient(180deg, #b19cd9 0%, #9370db 100%);
+    border-bottom: 3px solid var(--color-border-dark);
+    position: relative;
+}
+
+/* Windows 95 style title bar */
+.site-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 24px;
+    background: linear-gradient(90deg, #9370db 0%, #b19cd9 50%, #9370db 100%);
+    border-bottom: 2px solid var(--color-border-dark);
+}
+
+/* Fake window buttons */
+.site-header::after {
+    content: '_ [] X';
+    position: absolute;
+    top: 4px;
+    right: 8px;
+    font-family: var(--font-pixel);
+    font-size: 8px;
+    color: var(--color-border-dark);
+    background: var(--win-button-face);
+    padding: 2px 6px;
+    border: 2px solid;
+    border-color: var(--win-button-highlight) var(--win-button-shadow) var(--win-button-shadow) var(--win-button-highlight);
+    letter-spacing: 4px;
 }
 
 .header-content {
     margin-bottom: var(--space-sm);
+    padding-top: 20px;
 }
 
 .site-title {
     font-family: var(--font-pixel);
-    font-size: 1.2rem;
+    font-size: 1rem;
     margin: 0 0 var(--space-sm) 0;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     text-transform: lowercase;
 }
 
 .site-title a {
-    color: var(--color-bg-primary);
+    color: #ffffff;
     text-decoration: none;
+    text-shadow: 2px 2px 0 var(--color-border-dark);
 }
 
 .site-title a:hover {
-    color: var(--color-accent-light);
+    color: var(--color-accent-pink);
 }
 
 .site-tagline {
     font-family: var(--font-terminal);
-    font-size: 1.2rem;
-    color: var(--color-accent-light);
+    font-size: 1.3rem;
+    color: #ffe4f0;
     margin: 0;
+    text-shadow: 1px 1px 0 var(--color-border-dark);
 }
 
 .header-decoration {
     font-family: var(--font-terminal);
     font-size: 1.5rem;
-    color: var(--color-accent-lavender);
+    color: #ffe4f0;
 }
 
 .header-decoration .wave,
@@ -217,11 +262,13 @@ p {
     margin: 0 var(--space-xs);
 }
 
+/* Footer - Windows 95 status bar style */
 .site-footer {
     text-align: center;
     padding: var(--space-md);
-    background: var(--color-bg-secondary);
-    border-top: var(--border-width-thin) solid var(--color-border);
+    background: linear-gradient(180deg, #d4a5d9 0%, #c9a0dc 100%);
+    border-top: 3px solid var(--color-border-dark);
+    box-shadow: inset 0 2px 0 var(--win-button-highlight);
 }
 
 .footer-content {
@@ -232,7 +279,7 @@ p {
     width: 80px;
     height: auto;
     margin: 0 auto var(--space-md);
-    opacity: 0.85;
+    opacity: 0.9;
     transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
@@ -241,7 +288,7 @@ p {
     transform: scale(1.05);
 }
 
-/* Social Links */
+/* Social Links - Windows 95 button style */
 .social-links {
     display: flex;
     justify-content: center;
@@ -255,18 +302,22 @@ p {
     gap: var(--space-xs);
     font-family: var(--font-terminal);
     font-size: 1rem;
-    padding: var(--space-xs) var(--space-sm);
-    color: var(--color-text-secondary);
+    padding: var(--space-sm) var(--space-md);
+    color: var(--color-text-primary);
     text-decoration: none;
-    border: 1px solid var(--color-border-light);
-    background: var(--color-bg-content);
-    transition: all 0.15s ease;
+    background: var(--win-button-face);
+    border: 2px solid;
+    border-color: var(--win-button-highlight) var(--win-button-shadow) var(--win-button-shadow) var(--win-button-highlight);
+    transition: all 0.05s ease;
 }
 
 .social-link:hover {
-    background: var(--color-accent-light);
-    color: var(--color-accent-purple);
-    border-color: var(--color-accent-purple);
+    background: var(--color-accent-hotpink);
+    color: #ffffff;
+}
+
+.social-link:active {
+    border-color: var(--win-button-shadow) var(--win-button-highlight) var(--win-button-highlight) var(--win-button-shadow);
 }
 
 .social-link .social-icon {
@@ -278,18 +329,18 @@ p {
     font-family: var(--font-terminal);
     font-size: 1rem;
     margin: 0;
-    color: var(--color-text-secondary);
+    color: var(--color-text-primary);
 }
 
 .footer-meta {
     font-size: 0.8rem;
-    color: var(--color-text-muted);
+    color: var(--color-text-secondary);
     margin: var(--space-xs) 0 0 0;
 }
 
 .footer-decoration {
     font-family: var(--font-terminal);
-    color: var(--color-border-light);
+    color: var(--color-accent-purple);
     font-size: 0.9rem;
 }
 
@@ -324,35 +375,32 @@ p {
     display: block;
     padding: var(--space-sm) var(--space-md);
     font-family: var(--font-terminal);
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     text-decoration: none;
     color: var(--color-text-primary);
-    background: var(--color-bg-content);
-    border: var(--border-width-thin) solid var(--color-border);
-    box-shadow: var(--shadow-soft);
-    transition: all 0.1s ease;
+    background: var(--win-button-face);
+    border: 2px solid;
+    border-color: var(--win-button-highlight) var(--win-button-shadow) var(--win-button-shadow) var(--win-button-highlight);
+    transition: all 0.05s ease;
     text-transform: lowercase;
 }
 
 .nav-link:hover {
-    transform: translate(1px, 1px);
-    box-shadow: 1px 1px 0 var(--color-border-light);
-    background: var(--color-accent-light);
-    color: var(--color-text-primary);
+    background: var(--color-accent-hotpink);
+    color: #ffffff;
 }
 
 .nav-link:active {
-    transform: translate(2px, 2px);
-    box-shadow: none;
+    border-color: var(--win-button-shadow) var(--win-button-highlight) var(--win-button-highlight) var(--win-button-shadow);
 }
 
 .nav-link.active {
-    background: var(--color-accent-lavender);
-    color: var(--color-bg-content);
-    border-color: var(--color-accent-purple);
+    background: var(--color-accent-hotpink);
+    color: #ffffff;
+    border-color: var(--win-button-shadow) var(--win-button-highlight) var(--win-button-highlight) var(--win-button-shadow);
 }
 
-/* Sidebar Decorations */
+/* Sidebar Decorations - Windows 95 style */
 .sidebar-decoration {
     margin: var(--space-lg) 0;
     text-align: center;
@@ -363,9 +411,10 @@ p {
     padding: var(--space-xs) var(--space-sm);
     font-family: var(--font-pixel);
     font-size: 0.5rem;
-    color: var(--color-accent-purple);
-    background: var(--color-bg-content);
-    border: 1px solid var(--color-border-light);
+    color: var(--color-accent-hotpink);
+    background: var(--win-button-face);
+    border: 2px solid;
+    border-color: var(--win-button-highlight) var(--win-button-shadow) var(--win-button-shadow) var(--win-button-highlight);
 }
 
 .blink-slow {
@@ -399,7 +448,7 @@ p {
     display: block;
 }
 
-/* Sidebar Social Links */
+/* Sidebar Social Links - Windows 95 button style */
 .sidebar-social {
     display: flex;
     flex-direction: column;
@@ -412,18 +461,22 @@ p {
     gap: var(--space-xs);
     font-family: var(--font-terminal);
     font-size: 1rem;
-    padding: var(--space-xs) var(--space-sm);
-    color: var(--color-text-secondary);
+    padding: var(--space-sm) var(--space-md);
+    color: var(--color-text-primary);
     text-decoration: none;
-    border: 1px solid var(--color-border-light);
-    background: var(--color-bg-content);
-    transition: all 0.15s ease;
+    background: var(--win-button-face);
+    border: 2px solid;
+    border-color: var(--win-button-highlight) var(--win-button-shadow) var(--win-button-shadow) var(--win-button-highlight);
+    transition: all 0.05s ease;
 }
 
 .sidebar-social-link:hover {
-    background: var(--color-accent-light);
-    color: var(--color-accent-purple);
-    border-color: var(--color-accent-purple);
+    background: var(--color-accent-hotpink);
+    color: #ffffff;
+}
+
+.sidebar-social-link:active {
+    border-color: var(--win-button-shadow) var(--win-button-highlight) var(--win-button-highlight) var(--win-button-shadow);
 }
 
 .sidebar-social-link .social-icon {
@@ -438,48 +491,59 @@ p {
 /* Bio Section */
 .bio-section {
     text-align: center;
-    background: var(--color-accent-light);
-    border-color: var(--color-accent-purple);
+    background: var(--color-note-bg);
 }
 
 .bio-section h2 {
     font-family: var(--font-terminal);
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     border-bottom: none;
+    color: var(--color-accent-purple);
 }
 
 .bio-blurb {
-    font-family: var(--font-typewriter);
-    font-size: 1rem;
+    font-family: var(--font-body);
+    font-size: 1.1rem;
     line-height: 1.8;
     color: var(--color-text-secondary);
     max-width: 500px;
     margin: 0 auto;
 }
 
-/* Weekly Note - Sticky Note Style */
+/* Weekly Note - Windows 95 Dialog Style */
 .weekly-note {
     position: relative;
     margin: var(--space-lg) 0;
     padding: var(--space-md) var(--space-lg);
-    background: var(--color-note-bg);
-    border: 1px solid var(--color-note-border);
+    padding-top: calc(var(--space-md) + 24px);
+    background: var(--color-bg-content);
+    border: 3px solid var(--color-border-dark);
     box-shadow:
-        2px 2px 0 rgba(0, 0, 0, 0.05),
-        inset 0 0 40px rgba(212, 201, 168, 0.2);
-    transform: rotate(-0.5deg);
+        inset -2px -2px 0 var(--win-button-shadow),
+        inset 2px 2px 0 var(--win-button-highlight);
+}
+
+/* Windows title bar for weekly note */
+.weekly-note::before {
+    content: 'weekly note';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 22px;
+    background: linear-gradient(90deg, #ff69b4 0%, #ff91af 50%, #ff69b4 100%);
+    border-bottom: 2px solid var(--color-border-dark);
+    font-family: var(--font-pixel);
+    font-size: 0.5rem;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    padding-left: var(--space-sm);
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
 }
 
 .note-pin {
-    position: absolute;
-    top: -8px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 16px;
-    height: 16px;
-    background: radial-gradient(circle at 30% 30%, #d4a574, #8b6914);
-    border-radius: 50%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    display: none;
 }
 
 .note-content {
@@ -487,12 +551,7 @@ p {
 }
 
 .note-label {
-    display: block;
-    font-family: var(--font-terminal);
-    font-size: 0.9rem;
-    color: var(--color-text-muted);
-    margin-bottom: var(--space-sm);
-    text-transform: lowercase;
+    display: none;
 }
 
 .weekly-note p {
@@ -540,13 +599,29 @@ p {
     margin-bottom: var(--space-lg);
 }
 
-/* Content Box */
+/* Content Box - Windows 95 dialog style */
 .content-box {
+    position: relative;
     padding: var(--space-md);
+    padding-top: calc(var(--space-md) + 24px);
     margin-bottom: var(--space-lg);
     background: var(--color-bg-content);
-    border: var(--border-width-thin) solid var(--color-border);
-    box-shadow: var(--shadow-soft);
+    border: 3px solid var(--color-border-dark);
+    box-shadow:
+        inset -2px -2px 0 var(--win-button-shadow),
+        inset 2px 2px 0 var(--win-button-highlight);
+}
+
+/* Windows title bar for content boxes */
+.content-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 22px;
+    background: linear-gradient(90deg, #9370db 0%, #b19cd9 50%, #9370db 100%);
+    border-bottom: 2px solid var(--color-border-dark);
 }
 
 /* Welcome Section */
@@ -612,10 +687,26 @@ p {
     font-family: var(--font-terminal);
     font-size: 1rem;
     margin-top: var(--space-md);
+    padding: var(--space-sm) var(--space-md);
+    background: var(--win-button-face);
+    color: var(--color-text-primary);
+    text-decoration: none;
+    border: 2px solid;
+    border-color: var(--win-button-highlight) var(--win-button-shadow) var(--win-button-shadow) var(--win-button-highlight);
+    transition: all 0.05s ease;
     text-transform: lowercase;
 }
 
-/* Photo Log */
+.view-all-link:hover {
+    background: var(--color-accent-hotpink);
+    color: #ffffff;
+}
+
+.view-all-link:active {
+    border-color: var(--win-button-shadow) var(--win-button-highlight) var(--win-button-highlight) var(--win-button-shadow);
+}
+
+/* Photo Log - Windows 95 window style */
 .photos-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -627,25 +718,38 @@ p {
 }
 
 .photo-frame {
+    position: relative;
     background: var(--color-bg-content);
-    padding: var(--space-sm) var(--space-sm) var(--space-xl) var(--space-sm);
-    border: 1px solid var(--color-border);
-    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
-    transform: rotate(-1deg);
-    transition: transform 0.2s ease;
+    padding: var(--space-sm);
+    padding-top: calc(var(--space-sm) + 24px);
+    border: 3px solid var(--color-border-dark);
+    box-shadow:
+        inset -2px -2px 0 var(--win-button-shadow),
+        inset 2px 2px 0 var(--win-button-highlight),
+        3px 3px 0 rgba(0, 0, 0, 0.15);
+    transition: transform 0.1s ease;
 }
 
-.photo-frame:nth-child(even) {
-    transform: rotate(1deg);
+/* Windows title bar for photo frames */
+.photo-frame::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 22px;
+    background: linear-gradient(90deg, #9370db 0%, #b19cd9 50%, #9370db 100%);
+    border-bottom: 2px solid var(--color-border-dark);
 }
 
 .photo-frame:hover {
-    transform: rotate(0deg) scale(1.02);
+    transform: translateY(-2px);
 }
 
 .photo-frame img {
     width: 100%;
-    border: 1px solid var(--color-border-light);
+    border: 2px solid;
+    border-color: var(--win-button-shadow) var(--win-button-highlight) var(--win-button-highlight) var(--win-button-shadow);
 }
 
 .photo-caption {
@@ -713,22 +817,42 @@ p {
 }
 
 /* ==========================================================================
-   Upcoming Shows Section
+   Upcoming Shows Section - Windows 95 style
    ========================================================================== */
 
 .shows-section {
+    position: relative;
     margin-bottom: var(--space-xl);
     padding: var(--space-lg);
-    background: var(--color-bg-secondary);
-    border: var(--border-width-thin) dashed var(--color-border);
+    padding-top: calc(var(--space-lg) + 24px);
+    background: var(--color-bg-content);
+    border: 3px solid var(--color-border-dark);
+    box-shadow:
+        inset -2px -2px 0 var(--win-button-shadow),
+        inset 2px 2px 0 var(--win-button-highlight);
+}
+
+/* Windows title bar for shows section */
+.shows-section::before {
+    content: 'upcoming shows';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 22px;
+    background: linear-gradient(90deg, #ff69b4 0%, #ff91af 50%, #ff69b4 100%);
+    border-bottom: 2px solid var(--color-border-dark);
+    font-family: var(--font-pixel);
+    font-size: 0.5rem;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    padding-left: var(--space-sm);
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
 }
 
 .shows-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-sm);
-    margin-bottom: var(--space-lg);
+    display: none;
 }
 
 .shows-icon {
@@ -754,9 +878,9 @@ p {
     display: flex;
     gap: var(--space-md);
     padding: var(--space-md);
-    background: var(--color-bg-content);
-    border: 1px solid var(--color-border-light);
-    box-shadow: var(--shadow-soft);
+    background: var(--win-button-face);
+    border: 2px solid;
+    border-color: var(--win-button-highlight) var(--win-button-shadow) var(--win-button-shadow) var(--win-button-highlight);
 }
 
 .show-date-box {
@@ -767,7 +891,8 @@ p {
     min-width: 60px;
     padding: var(--space-sm);
     background: var(--color-accent-purple);
-    border: 2px solid var(--color-border);
+    border: 2px solid;
+    border-color: var(--win-button-shadow) var(--win-button-highlight) var(--win-button-highlight) var(--win-button-shadow);
 }
 
 .show-month {
@@ -888,19 +1013,22 @@ p {
     font-family: var(--font-terminal);
     font-size: 1rem;
     padding: var(--space-sm) var(--space-md);
-    background: var(--color-accent-purple);
-    color: var(--color-bg-content);
+    background: var(--win-button-face);
+    color: var(--color-text-primary);
     text-decoration: none;
-    border: var(--border-width-thin) solid var(--color-border);
-    box-shadow: var(--shadow-soft);
-    transition: all 0.1s ease;
+    border: 2px solid;
+    border-color: var(--win-button-highlight) var(--win-button-shadow) var(--win-button-shadow) var(--win-button-highlight);
+    transition: all 0.05s ease;
     text-transform: lowercase;
 }
 
 .music-link:hover {
-    transform: translate(1px, 1px);
-    box-shadow: 1px 1px 0 var(--color-border-light);
-    color: var(--color-bg-content);
+    background: var(--color-accent-hotpink);
+    color: #ffffff;
+}
+
+.music-link:active {
+    border-color: var(--win-button-shadow) var(--win-button-highlight) var(--win-button-highlight) var(--win-button-shadow);
 }
 
 /* Archive */
@@ -936,6 +1064,472 @@ p {
     font-size: 0.8rem;
     margin-right: var(--space-sm);
     text-transform: lowercase;
+}
+
+/* ==========================================================================
+   Treasures Page (Merch/Shop)
+   ========================================================================== */
+
+/* Treasures - Windows 95 window style */
+.treasures-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: var(--space-lg);
+}
+
+.treasure-item {
+    position: relative;
+    background: var(--color-bg-content);
+    border: 3px solid var(--color-border-dark);
+    padding: var(--space-sm);
+    padding-top: calc(var(--space-sm) + 24px);
+    box-shadow:
+        inset -2px -2px 0 var(--win-button-shadow),
+        inset 2px 2px 0 var(--win-button-highlight),
+        3px 3px 0 rgba(0, 0, 0, 0.15);
+    transition: transform 0.1s ease;
+}
+
+/* Windows title bar for treasure items */
+.treasure-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 22px;
+    background: linear-gradient(90deg, #9370db 0%, #b19cd9 50%, #9370db 100%);
+    border-bottom: 2px solid var(--color-border-dark);
+}
+
+.treasure-item:hover {
+    transform: translateY(-2px);
+}
+
+.treasure-image {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border: 2px solid;
+    border-color: var(--win-button-shadow) var(--win-button-highlight) var(--win-button-highlight) var(--win-button-shadow);
+    background: var(--color-bg-secondary);
+}
+
+.treasure-details {
+    padding: var(--space-sm) 0;
+    text-align: center;
+}
+
+.treasure-title {
+    font-family: var(--font-terminal);
+    font-size: 1.1rem;
+    margin: 0 0 var(--space-xs) 0;
+    color: var(--color-text-primary);
+}
+
+.treasure-description {
+    font-family: var(--font-typewriter);
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-sm) 0;
+    line-height: 1.5;
+}
+
+.treasure-price {
+    font-family: var(--font-terminal);
+    font-size: 1rem;
+    color: var(--color-accent-hotpink);
+    margin: 0 0 var(--space-sm) 0;
+}
+
+.treasure-link {
+    display: inline-block;
+    font-family: var(--font-terminal);
+    font-size: 0.9rem;
+    padding: var(--space-sm) var(--space-md);
+    background: var(--win-button-face);
+    color: var(--color-text-primary);
+    text-decoration: none;
+    border: 2px solid;
+    border-color: var(--win-button-highlight) var(--win-button-shadow) var(--win-button-shadow) var(--win-button-highlight);
+    transition: all 0.05s ease;
+    text-transform: lowercase;
+}
+
+.treasure-link:hover {
+    background: var(--color-accent-hotpink);
+    color: #ffffff;
+}
+
+.treasure-link:active {
+    border-color: var(--win-button-shadow) var(--win-button-highlight) var(--win-button-highlight) var(--win-button-shadow);
+}
+
+.treasure-unavailable {
+    opacity: 0.6;
+}
+
+.treasure-unavailable .treasure-link {
+    background: var(--color-text-muted);
+    cursor: not-allowed;
+}
+
+.treasure-unavailable::after {
+    content: "sold out";
+    position: absolute;
+    top: 28px;
+    right: var(--space-sm);
+    font-family: var(--font-pixel);
+    font-size: 0.4rem;
+    padding: 2px 6px;
+    background: var(--color-accent-hotpink);
+    color: #ffffff;
+}
+
+/* ==========================================================================
+   Structural Stickers (on main page-wrapper box - visible on all pages)
+   ========================================================================== */
+
+.frame-stickers {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 100;
+    overflow: visible;
+}
+
+.frame-sticker {
+    position: absolute;
+    max-width: 75px;
+    max-height: 75px;
+    opacity: 0.9;
+    filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.15));
+}
+
+/* Frame sticker positions - on the page-wrapper box edges */
+/* Sticker 1: top-left area */
+.frame-sticker:nth-child(1) {
+    top: 80px;
+    left: -28px;
+    transform: rotate(-12deg);
+    animation: jitter-1 0.4s steps(2, end) infinite;
+}
+
+/* Sticker 2: top-right area */
+.frame-sticker:nth-child(2) {
+    top: 160px;
+    right: -25px;
+    transform: rotate(8deg);
+    animation: jitter-2 0.55s steps(2, end) infinite;
+}
+
+/* Sticker 3: upper-middle-left */
+.frame-sticker:nth-child(3) {
+    top: 30%;
+    left: -30px;
+    transform: rotate(15deg);
+    animation: jitter-3 0.45s steps(3, end) infinite;
+}
+
+/* Sticker 4: middle-right */
+.frame-sticker:nth-child(4) {
+    top: 50%;
+    right: -28px;
+    transform: rotate(-5deg);
+    animation: jitter-4 0.5s steps(2, end) infinite;
+}
+
+/* Sticker 5: bottom-right area */
+.frame-sticker:nth-child(5) {
+    bottom: 100px;
+    right: -22px;
+    transform: rotate(10deg);
+    animation: jitter-5 0.42s steps(2, end) infinite;
+}
+
+/* Sticker 6: lower-middle-left */
+.frame-sticker:nth-child(6) {
+    top: 55%;
+    left: -25px;
+    transform: rotate(-8deg);
+    animation: jitter-6 0.48s steps(3, end) infinite;
+}
+
+/* Sticker 7: header left - on outer border */
+.frame-sticker:nth-child(7) {
+    top: -20px;
+    left: -25px;
+    transform: rotate(5deg);
+    animation: jitter-2 0.52s steps(2, end) infinite;
+}
+
+/* Sticker 8: header right - on outer border */
+.frame-sticker:nth-child(8) {
+    top: -18px;
+    right: -22px;
+    transform: rotate(-10deg);
+    animation: jitter-4 0.38s steps(2, end) infinite;
+}
+
+/* Sticker 9: bottom-left area */
+.frame-sticker:nth-child(9) {
+    bottom: 40px;
+    left: -28px;
+    transform: rotate(12deg);
+    animation: jitter-1 0.46s steps(2, end) infinite;
+}
+
+/* Sticker 10: lower-left additional */
+.frame-sticker:nth-child(10) {
+    bottom: 180px;
+    left: -26px;
+    transform: rotate(-15deg);
+    animation: jitter-5 0.44s steps(2, end) infinite;
+}
+
+/* Old internet jitter animations - low framerate, imperfect, varied timing */
+@keyframes jitter-1 {
+    0%, 100% { transform: rotate(-12deg) translate(0, 0); }
+    50% { transform: rotate(-10deg) translate(1px, -1px); }
+}
+
+@keyframes jitter-2 {
+    0%, 100% { transform: rotate(8deg) translate(0, 0); }
+    50% { transform: rotate(10deg) translate(-1px, 1px); }
+}
+
+@keyframes jitter-3 {
+    0%, 100% { transform: rotate(15deg) translate(0, 0); }
+    33% { transform: rotate(16deg) translate(1px, 0); }
+    66% { transform: rotate(14deg) translate(-1px, 1px); }
+}
+
+@keyframes jitter-4 {
+    0%, 100% { transform: rotate(-5deg) translate(0, 0); }
+    50% { transform: rotate(-3deg) translate(0, -1px); }
+}
+
+@keyframes jitter-5 {
+    0%, 100% { transform: rotate(10deg) translate(0, 0); }
+    50% { transform: rotate(12deg) translate(1px, 1px); }
+}
+
+@keyframes jitter-6 {
+    0%, 100% { transform: rotate(-8deg) translate(0, 0); }
+    33% { transform: rotate(-7deg) translate(-1px, 0); }
+    66% { transform: rotate(-9deg) translate(1px, -1px); }
+}
+
+/* Hide frame stickers on mobile - too cluttered */
+@media (max-width: 767px) {
+    .frame-stickers {
+        display: none;
+    }
+}
+
+/* ==========================================================================
+   Box Stickers (single sticker per content box - on edges, no text overlap)
+   ========================================================================== */
+
+.box-sticker {
+    position: absolute;
+    max-width: 50px;
+    max-height: 50px;
+    opacity: 0.9;
+    filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.15));
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Varied positions for box stickers */
+.box-sticker-1 {
+    top: -20px;
+    right: 20px;
+    transform: rotate(12deg);
+    animation: jitter-box-1 0.45s steps(2, end) infinite;
+}
+
+.box-sticker-2 {
+    bottom: -18px;
+    left: 15px;
+    transform: rotate(-8deg);
+    animation: jitter-box-2 0.5s steps(2, end) infinite;
+}
+
+.box-sticker-3 {
+    top: -15px;
+    left: 25%;
+    transform: rotate(5deg);
+    animation: jitter-box-1 0.52s steps(2, end) infinite;
+}
+
+.box-sticker-4 {
+    bottom: -20px;
+    right: 30%;
+    transform: rotate(-12deg);
+    animation: jitter-box-2 0.42s steps(2, end) infinite;
+}
+
+@keyframes jitter-box-1 {
+    0%, 100% { transform: rotate(12deg) translate(0, 0); }
+    50% { transform: rotate(14deg) translate(1px, -1px); }
+}
+
+@keyframes jitter-box-2 {
+    0%, 100% { transform: rotate(-8deg) translate(0, 0); }
+    50% { transform: rotate(-6deg) translate(-1px, 1px); }
+}
+
+/* ==========================================================================
+   Content Stickers (CMS-controlled, on diary/photo/treasure entries)
+   ========================================================================== */
+
+.stickers-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    overflow: visible;
+    z-index: 1;
+}
+
+.sticker {
+    position: absolute;
+    max-width: 50px;
+    max-height: 50px;
+    opacity: 0.9;
+    filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.15));
+}
+
+/* Position stickers on box EDGES to avoid covering text */
+.sticker:nth-child(1) {
+    top: -20px;
+    right: 15px;
+    transform: rotate(15deg);
+    animation: jitter-box-1 0.6s steps(2, end) infinite;
+}
+.sticker:nth-child(2) {
+    bottom: -18px;
+    left: -12px;
+    transform: rotate(-10deg);
+    animation: jitter-box-2 0.55s steps(2, end) infinite;
+}
+.sticker:nth-child(3) {
+    top: -15px;
+    left: 30%;
+    transform: rotate(5deg);
+    animation: jitter-box-1 0.52s steps(2, end) infinite;
+}
+.sticker:nth-child(4) {
+    bottom: -20px;
+    right: 25%;
+    transform: rotate(-15deg);
+    animation: jitter-box-2 0.48s steps(2, end) infinite;
+}
+.sticker:nth-child(5) {
+    top: -18px;
+    left: -10px;
+    transform: rotate(8deg);
+    animation: jitter-box-1 0.44s steps(2, end) infinite;
+}
+
+/* ==========================================================================
+   Messages Page - Windows 95 style
+   ========================================================================== */
+
+.messages-section {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.message-box {
+    text-align: center;
+}
+
+.message-intro {
+    font-family: var(--font-typewriter);
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+    margin-bottom: var(--space-lg);
+}
+
+.message-embed {
+    position: relative;
+    min-height: 200px;
+    padding: var(--space-lg);
+    padding-top: calc(var(--space-lg) + 24px);
+    background: var(--color-bg-content);
+    border: 3px solid var(--color-border-dark);
+    box-shadow:
+        inset -2px -2px 0 var(--win-button-shadow),
+        inset 2px 2px 0 var(--win-button-highlight);
+}
+
+/* Windows title bar for message embed */
+.message-embed::before {
+    content: 'drop a message';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 22px;
+    background: linear-gradient(90deg, #ff69b4 0%, #ff91af 50%, #ff69b4 100%);
+    border-bottom: 2px solid var(--color-border-dark);
+    font-family: var(--font-pixel);
+    font-size: 0.5rem;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    padding-left: var(--space-sm);
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
+}
+
+.message-embed iframe {
+    max-width: 100%;
+    border: none;
+}
+
+.embed-placeholder {
+    font-family: var(--font-terminal);
+    color: var(--color-text-muted);
+}
+
+.embed-placeholder p {
+    margin: var(--space-sm) 0;
+}
+
+.embed-note {
+    font-size: 0.9rem;
+    font-style: italic;
+}
+
+.message-external-link {
+    display: inline-block;
+    font-family: var(--font-terminal);
+    font-size: 1.1rem;
+    padding: var(--space-md) var(--space-xl);
+    background: var(--win-button-face);
+    color: var(--color-text-primary);
+    text-decoration: none;
+    border: 2px solid;
+    border-color: var(--win-button-highlight) var(--win-button-shadow) var(--win-button-shadow) var(--win-button-highlight);
+    transition: all 0.05s ease;
+    text-transform: lowercase;
+}
+
+.message-external-link:hover {
+    background: var(--color-accent-hotpink);
+    color: #ffffff;
+}
+
+.message-external-link:active {
+    border-color: var(--win-button-shadow) var(--win-button-highlight) var(--win-button-highlight) var(--win-button-shadow);
 }
 
 /* Random Page */

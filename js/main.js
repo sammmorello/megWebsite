@@ -33,16 +33,59 @@ function parseFrontmatter(markdown) {
     const content = match[2];
     const data = {};
 
-    // Simple YAML parser for common fields
-    yamlString.split('\n').forEach(line => {
+    const lines = yamlString.split('\n');
+    let currentKey = null;
+    let currentArray = null;
+    let currentObject = null;
+
+    for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+
+        // Check for array item with nested key (e.g., "  - sticker: /path")
+        const nestedArrayMatch = line.match(/^\s+-\s+(\w+):\s*(.*)$/);
+        if (nestedArrayMatch && currentKey) {
+            if (!currentArray) currentArray = [];
+            const nestedKey = nestedArrayMatch[1];
+            let nestedValue = nestedArrayMatch[2].trim();
+            // Remove quotes if present
+            if ((nestedValue.startsWith('"') && nestedValue.endsWith('"')) ||
+                (nestedValue.startsWith("'") && nestedValue.endsWith("'"))) {
+                nestedValue = nestedValue.slice(1, -1);
+            }
+            currentArray.push({ [nestedKey]: nestedValue });
+            continue;
+        }
+
+        // Check for simple array item (e.g., "  - value")
+        const simpleArrayMatch = line.match(/^\s+-\s+(.*)$/);
+        if (simpleArrayMatch && currentKey) {
+            if (!currentArray) currentArray = [];
+            let value = simpleArrayMatch[1].trim();
+            if ((value.startsWith('"') && value.endsWith('"')) ||
+                (value.startsWith("'") && value.endsWith("'"))) {
+                value = value.slice(1, -1);
+            }
+            currentArray.push(value);
+            continue;
+        }
+
+        // Check for key: value pair at root level
         const colonIndex = line.indexOf(':');
-        if (colonIndex > -1) {
+        if (colonIndex > -1 && !line.startsWith(' ') && !line.startsWith('\t')) {
+            // Save previous array if exists
+            if (currentKey && currentArray) {
+                data[currentKey] = currentArray;
+                currentArray = null;
+            }
+
             const key = line.slice(0, colonIndex).trim();
             let value = line.slice(colonIndex + 1).trim();
 
-            // Skip array/object values (like tags)
-            if (value.startsWith('-') || value === '') {
-                return;
+            // Empty value means array or object follows
+            if (value === '') {
+                currentKey = key;
+                currentArray = [];
+                continue;
             }
 
             // Remove quotes if present
@@ -51,9 +94,15 @@ function parseFrontmatter(markdown) {
                 value = value.slice(1, -1);
             }
 
+            currentKey = null;
             data[key] = value;
         }
-    });
+    }
+
+    // Save final array if exists
+    if (currentKey && currentArray) {
+        data[currentKey] = currentArray;
+    }
 
     return { data, content };
 }
@@ -147,6 +196,20 @@ function formatDate(dateStr) {
 }
 
 /**
+ * Render stickers for an entry
+ * @param {Array} stickers - Array of sticker objects or strings
+ * @returns {string} - HTML string
+ */
+function renderStickers(stickers) {
+    if (!stickers || stickers.length === 0) return '';
+
+    return `<div class="stickers-container">${stickers.map(s => {
+        const src = escapeHtml(typeof s === 'string' ? s : (s.sticker || ''));
+        return src ? `<img src="${src}" alt="" class="sticker" loading="lazy">` : '';
+    }).join('')}</div>`;
+}
+
+/**
  * Render a diary entry
  * @param {Object} entry - Parsed entry data
  * @returns {string} - HTML string
@@ -155,9 +218,11 @@ function renderDiaryEntry(entry) {
     const title = escapeHtml(entry.data.title || 'Untitled');
     const date = formatDate(entry.data.date);
     const content = renderMarkdown(entry.content);
+    const stickers = entry.data.stickers || [];
 
     return `
         <article class="diary-entry content-box">
+            ${renderStickers(stickers)}
             <header class="entry-header">
                 <h3 class="entry-title">${title}</h3>
                 <time class="entry-date" datetime="${entry.data.date}">${date}</time>
@@ -178,10 +243,12 @@ function renderPhotoItem(photo) {
     const image = escapeHtml(photo.data.image || '');
     const caption = escapeHtml(photo.data.caption || '');
     const date = formatDate(photo.data.date);
+    const stickers = photo.data.stickers || [];
 
     return `
         <figure class="photo-item">
             <div class="photo-frame">
+                ${renderStickers(stickers)}
                 <img src="${image}"
                      alt="${caption}"
                      loading="lazy"
@@ -243,6 +310,49 @@ function renderArchiveItem(item) {
             </div>
             <div class="archive-item-content">
                 ${content}
+            </div>
+        </article>
+    `;
+}
+
+/**
+ * Render a treasure item
+ * @param {Object} item - Parsed item data
+ * @returns {string} - HTML string
+ */
+function renderTreasureItem(item) {
+    const title = escapeHtml(item.data.title || 'Untitled');
+    const image = escapeHtml(item.data.image || '');
+    const description = escapeHtml(item.data.description || '');
+    const link = escapeHtml(item.data.link || '#');
+    const price = escapeHtml(item.data.price || '');
+    const available = item.data.available !== 'false';
+    const stickers = item.data.stickers || [];
+
+    const stickersHtml = stickers.length > 0
+        ? `<div class="stickers-container">${stickers.map(s =>
+            `<img src="${escapeHtml(s.sticker || s)}" alt="" class="sticker" loading="lazy">`
+          ).join('')}</div>`
+        : '';
+
+    return `
+        <article class="treasure-item${available ? '' : ' treasure-unavailable'}">
+            ${stickersHtml}
+            <img src="${image}"
+                 alt="${title}"
+                 class="treasure-image"
+                 loading="lazy"
+                 onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22300%22><rect fill=%22%23e8e0d8%22 width=%22100%%22 height=%22100%%22/><text x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 fill=%22%239a8c7c%22>~</text></svg>'">
+            <div class="treasure-details">
+                <h3 class="treasure-title">${title}</h3>
+                <p class="treasure-description">${description}</p>
+                ${price ? `<p class="treasure-price">${price}</p>` : ''}
+                <a href="${link}"
+                   class="treasure-link"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    ${available ? 'get it' : 'sold out'}
+                </a>
             </div>
         </article>
     `;
@@ -401,6 +511,31 @@ async function initArchivePage() {
     }
 }
 
+/**
+ * Initialize treasures page
+ */
+async function initTreasuresPage() {
+    const container = document.getElementById('treasures-container');
+    if (!container) return;
+
+    const files = await loadContentList('treasures');
+    const items = await Promise.all(
+        files.map(file => loadMarkdownFile(`${CONFIG.contentBase}/treasures/${file}`))
+    );
+
+    const validItems = items.filter(item => item !== null);
+
+    if (validItems.length > 0) {
+        // Sort by date (newest first)
+        validItems.sort((a, b) =>
+            new Date(b.data.date) - new Date(a.data.date)
+        );
+        container.innerHTML = validItems.map(renderTreasureItem).join('');
+    } else {
+        container.innerHTML = '<p class="no-content">no treasures yet... check back soon!</p>';
+    }
+}
+
 // ==========================================================================
 // NETLIFY IDENTITY INTEGRATION
 // ==========================================================================
@@ -438,6 +573,9 @@ document.addEventListener('DOMContentLoaded', () => {
         case 'archive':
             initArchivePage();
             break;
-        // 'random' page is static, no initialization needed
+        case 'treasures':
+            initTreasuresPage();
+            break;
+        // 'random' and 'messages' pages are static/use external embeds
     }
 });

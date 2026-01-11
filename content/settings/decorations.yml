@@ -1,0 +1,11 @@
+frame_stickers:
+  - image: "/assets/images/sequinstar.jpg"
+  - image: "/assets/images/pinkheartdiamond.png"
+  - image: "/assets/images/cherry.jpg"
+  - image: "/assets/images/betafish.png"
+  - image: "/assets/images/sequinheart.png"
+  - image: "/assets/images/baby.png"
+  - image: "/assets/images/icecream.png"
+  - image: "/assets/images/pinkcake.png"
+bio_sticker: "/assets/images/cherry.jpg"
+note_sticker: "/assets/images/sequinstar.jpg"

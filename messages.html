@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>photo log | deep sea driving</title>
-    <meta name="description" content="photo gallery and visual diary">
+    <title>messages | deep sea driving</title>
+    <meta name="description" content="send an anonymous message">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,7 +17,7 @@
     <!-- Netlify Identity -->
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
-<body data-page="photos">
+<body data-page="messages">
     <div class="page-wrapper">
         <!-- Structural Frame Stickers (on the main box) -->
         <div class="frame-stickers">
@@ -57,11 +57,11 @@
                     <ul class="nav-list">
                         <li><a href="index.html" class="nav-link">home</a></li>
                         <li><a href="sunken-logs.html" class="nav-link">sunken logs</a></li>
-                        <li><a href="photos.html" class="nav-link active">photo log</a></li>
+                        <li><a href="photos.html" class="nav-link">photo log</a></li>
                         <li><a href="art-music.html" class="nav-link">art & music</a></li>
                         <li><a href="treasures.html" class="nav-link">treasures</a></li>
                         <li><a href="random.html" class="nav-link">random</a></li>
-                        <li><a href="messages.html" class="nav-link">messages</a></li>
+                        <li><a href="messages.html" class="nav-link active">messages</a></li>
                     </ul>
                 </div>
 
@@ -89,18 +89,27 @@
                 <header class="page-header">
                     <h2 class="page-title">
                         <span class="title-decoration">&gt;&gt;</span>
-                        photo log
+                        messages
                         <span class="title-decoration">&lt;&lt;</span>
                     </h2>
-                    <p class="page-description">snapshots and memories. a visual diary.</p>
+                    <p class="page-description">drop me a note. say hi. ask me anything.</p>
                 </header>
 
-                <div id="photos-container" class="photos-container">
-                    <!-- Loaded dynamically via JavaScript -->
-                    <div class="loading-placeholder">
-                        <span>loading photos...</span>
+                <section class="messages-section">
+                    <div class="message-box content-box">
+                        <img src="assets/images/sequinheart.png" alt="" class="box-sticker box-sticker-4">
+                        <p class="message-intro">want to send me an anonymous message? leave a thought, a question, or just say hi. no account needed.</p>
+
+                        <div id="message-embed" class="message-embed">
+                            <!-- External message service embed goes here -->
+                            <!-- Options: curiouscat, tellonym, tumblr ask, or google form -->
+                            <div class="embed-placeholder">
+                                <p>~ message box coming soon ~</p>
+                                <p class="embed-note">check back later or find me elsewhere</p>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                </section>
             </main>
         </div>
 

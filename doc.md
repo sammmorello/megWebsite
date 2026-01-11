@@ -116,3 +116,32 @@ When adding content manually (not via CMS), update the corresponding `index.json
 | Text Primary | Near-black | `#2d2926` |
 | Accent Purple | Dusty purple | `#6b5b7a` |
 | Accent Lavender | Light purple | `#9b8ba0` |
+
+
+
+
+What's changed:
+
+  1. Frame stickers are bigger (75px max, up from 55px)
+  2. All 8 frame stickers now jitter with varied timing (0.38s - 0.55s, all choppy steps)
+  3. Added icecream.png and pinkcake.png to the frame sticker rotation
+  4. Box stickers added to content boxes:
+    - Homepage: bio box (cherry), weekly note (sequinstar)
+    - Random page: each content box has one sticker
+    - Messages page: message box (sequinheart)
+  5. All stickers on edges - positioned with negative offsets so they perch on borders, never overlapping text
+
+  ---
+  To answer your question about CMS customization:
+
+  Yes! There are now two types of sticker spots, both CMS-editable:
+  ┌────────────────┬─────────────────────────────────────┬──────────────────────────────────────────────────────────────────────────────┐
+  │      Type      │                Where                │                                 CMS Location                                 │
+  ├────────────────┼─────────────────────────────────────┼──────────────────────────────────────────────────────────────────────────────┤
+  │ Frame Stickers │ Main box border (all pages)         │ Site Settings → Site Decorations → "Frame Stickers" (up to 8)                │
+  ├────────────────┼─────────────────────────────────────┼──────────────────────────────────────────────────────────────────────────────┤
+  │ Box Stickers   │ Bio section, weekly note            │ Site Settings → Site Decorations → "Bio Box Sticker" / "Weekly Note Sticker" │
+  ├────────────────┼─────────────────────────────────────┼──────────────────────────────────────────────────────────────────────────────┤
+  │ Entry Stickers │ Per diary entry, photo, or treasure │ Each entry's "Stickers" field (up to 5)                                      │
+  └────────────────┴─────────────────────────────────────┴──────────────────────────────────────────────────────────────────────────────┘
+  meg can go into the CMS, swap out any image, and the stickers will update site-wide. No code needed. The positions/animations are locked in CSS, but the images themselves are fully customizable via CMS.

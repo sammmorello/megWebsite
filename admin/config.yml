@@ -69,6 +69,17 @@ collections:
           - numbered-list
         hint: "write your sunken log entry here"
 
+      - label: "Stickers"
+        name: "stickers"
+        widget: "list"
+        required: false
+        max: 5
+        hint: "optional decorative stickers (1-5 images)"
+        field:
+          label: "Sticker Image"
+          name: "sticker"
+          widget: "image"
+
   # --------------------------------------------------------------------------
   # PHOTO LOG
   # --------------------------------------------------------------------------
@@ -105,6 +116,17 @@ collections:
         name: "tags"
         widget: "list"
         required: false
+
+      - label: "Stickers"
+        name: "stickers"
+        widget: "list"
+        required: false
+        max: 5
+        hint: "optional decorative stickers (1-5 images)"
+        field:
+          label: "Sticker Image"
+          name: "sticker"
+          widget: "image"
 
   # --------------------------------------------------------------------------
   # ART & MUSIC (Fish Purse lives here)
@@ -161,38 +183,69 @@ collections:
         hint: "show this on the homepage?"
 
   # --------------------------------------------------------------------------
-  # ARCHIVE
+  # TREASURES (Merch/Shop)
   # --------------------------------------------------------------------------
-  - name: "archive"
-    label: "Archive Items"
-    label_singular: "Archive Item"
-    folder: "content/archive"
+  - name: "treasures"
+    label: "Treasures"
+    label_singular: "Treasure"
+    folder: "content/treasures"
     create: true
     slug: "{{slug}}"
     extension: "md"
     format: "yaml-frontmatter"
+    sortable_fields: ["date", "title"]
+    summary: "{{title}}"
     fields:
       - label: "Title"
         name: "title"
         widget: "string"
+        hint: "name of the item"
 
-      - label: "Category"
-        name: "category"
-        widget: "select"
-        options:
-          - "thoughts"
-          - "links"
-          - "memories"
-          - "misc"
+      - label: "Image"
+        name: "image"
+        widget: "image"
+        allow_multiple: false
+        hint: "photo of the item"
 
-      - label: "Date"
+      - label: "Description"
+        name: "description"
+        widget: "text"
+        hint: "short description of this treasure"
+
+      - label: "External Link"
+        name: "link"
+        widget: "string"
+        hint: "link to purchase (etsy, bandcamp, big cartel, etc.)"
+
+      - label: "Price"
+        name: "price"
+        widget: "string"
+        required: false
+        hint: "optional price display (e.g. '$15' or 'pay what you want')"
+
+      - label: "Date Added"
         name: "date"
         widget: "datetime"
         format: "YYYY-MM-DD"
+        date_format: "MMMM D, YYYY"
+        time_format: false
 
-      - label: "Body"
-        name: "body"
-        widget: "markdown"
+      - label: "Available"
+        name: "available"
+        widget: "boolean"
+        default: true
+        hint: "is this item currently available?"
+
+      - label: "Stickers"
+        name: "stickers"
+        widget: "list"
+        required: false
+        max: 5
+        hint: "optional decorative stickers (1-5 images)"
+        field:
+          label: "Sticker Image"
+          name: "sticker"
+          widget: "image"
 
   # --------------------------------------------------------------------------
   # UPCOMING SHOWS
@@ -282,6 +335,32 @@ collections:
             widget: "string"
             hint: "link to your instagram profile"
 
+      - label: "Site Decorations"
+        name: "decorations"
+        file: "content/settings/decorations.yml"
+        fields:
+          - label: "Frame Stickers"
+            name: "frame_stickers"
+            widget: "list"
+            max: 8
+            hint: "stickers that appear on the main box border (up to 8). these show on every page!"
+            field:
+              label: "Sticker Image"
+              name: "image"
+              widget: "image"
+
+          - label: "Bio Box Sticker"
+            name: "bio_sticker"
+            widget: "image"
+            required: false
+            hint: "sticker for the bio section on the homepage"
+
+          - label: "Weekly Note Sticker"
+            name: "note_sticker"
+            widget: "image"
+            required: false
+            hint: "sticker for the weekly note on the homepage"
+
       - label: "Homepage Content"
         name: "homepage"
         file: "content/settings/homepage.yml"
@@ -322,3 +401,38 @@ collections:
             widget: "string"
             default: "~ more dates coming soon ~"
             hint: "note shown below the shows list"
+
+      - label: "Messages Page"
+        name: "messages"
+        file: "content/settings/messages.yml"
+        fields:
+          - label: "Page Description"
+            name: "description"
+            widget: "string"
+            default: "drop me a note. say hi. ask me anything."
+            hint: "text shown below the page title"
+
+          - label: "Intro Text"
+            name: "intro"
+            widget: "text"
+            default: "want to send me an anonymous message? leave a thought, a question, or just say hi. no account needed."
+            hint: "welcoming text above the message box"
+
+          - label: "Embed Code"
+            name: "embed"
+            widget: "text"
+            required: false
+            hint: "paste embed code from curiouscat, tellonym, google form, etc."
+
+          - label: "External Link"
+            name: "link"
+            widget: "string"
+            required: false
+            hint: "if not using embed, link to external ask page"
+
+          - label: "Link Text"
+            name: "link_text"
+            widget: "string"
+            default: "send me a message"
+            required: false
+            hint: "button text for external link"
