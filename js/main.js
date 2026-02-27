@@ -149,6 +149,81 @@ async function loadContentList(folder) {
     }
 }
 
+/**
+ * Load a YAML settings file
+ * @param {string} filename - Settings file name (without path)
+ * @returns {Promise<Object|null>} - Parsed settings or null on error
+ */
+async function loadSettings(filename) {
+    try {
+        const response = await fetch(`${CONFIG.contentBase}/settings/${filename}`);
+        if (!response.ok) {
+            throw new Error(`Failed to load settings: ${filename}`);
+        }
+        const yaml = await response.text();
+        return parseYaml(yaml);
+    } catch (error) {
+        console.warn('Error loading settings:', error.message);
+        return null;
+    }
+}
+
+/**
+ * Parse simple YAML (key: value format)
+ * @param {string} yaml - YAML string
+ * @returns {Object} - Parsed object
+ */
+function parseYaml(yaml) {
+    const result = {};
+    const lines = yaml.split('\n');
+    let currentKey = null;
+    let multilineValue = [];
+    let inMultiline = false;
+
+    for (const line of lines) {
+        // Check for multiline continuation
+        if (inMultiline) {
+            if (line.startsWith('  ') || line.trim() === '') {
+                multilineValue.push(line.replace(/^  /, ''));
+                continue;
+            } else {
+                result[currentKey] = multilineValue.join('\n').trim();
+                inMultiline = false;
+                multilineValue = [];
+            }
+        }
+
+        const colonIndex = line.indexOf(':');
+        if (colonIndex > -1 && !line.startsWith(' ') && !line.startsWith('\t')) {
+            const key = line.slice(0, colonIndex).trim();
+            let value = line.slice(colonIndex + 1).trim();
+
+            // Check for multiline indicator
+            if (value === '' || value === '|') {
+                currentKey = key;
+                inMultiline = true;
+                multilineValue = [];
+                continue;
+            }
+
+            // Remove quotes
+            if ((value.startsWith('"') && value.endsWith('"')) ||
+                (value.startsWith("'") && value.endsWith("'"))) {
+                value = value.slice(1, -1);
+            }
+
+            result[key] = value;
+        }
+    }
+
+    // Handle final multiline value
+    if (inMultiline && currentKey) {
+        result[currentKey] = multilineValue.join('\n').trim();
+    }
+
+    return result;
+}
+
 // ==========================================================================
 // RENDERING FUNCTIONS
 // ==========================================================================
@@ -271,21 +346,23 @@ function renderMusicItem(item) {
     const title = escapeHtml(item.data.title || 'Untitled');
     const type = escapeHtml(item.data.type || 'misc');
     const description = escapeHtml(item.data.description || '');
-    const link = escapeHtml(item.data.link || '#');
+    const link = item.data.link ? escapeHtml(item.data.link) : '';
     const embed = item.data.embed || '';
+
+    const linkHtml = link ? `
+            <a href="${link}"
+               class="music-link"
+               target="_blank"
+               rel="noopener noreferrer">
+                View / Listen
+            </a>` : '';
 
     return `
         <article class="music-item content-box">
             <span class="music-type">${type}</span>
             <h3 class="music-title">${title}</h3>
             <p class="music-description">${description}</p>
-            ${embed ? `<div class="music-embed">${embed}</div>` : ''}
-            <a href="${link}"
-               class="music-link"
-               target="_blank"
-               rel="noopener noreferrer">
-                View / Listen
-            </a>
+            ${embed ? `<div class="music-embed">${embed}</div>` : ''}${linkHtml}
         </article>
     `;
 }
@@ -324,7 +401,7 @@ function renderTreasureItem(item) {
     const title = escapeHtml(item.data.title || 'Untitled');
     const image = escapeHtml(item.data.image || '');
     const description = escapeHtml(item.data.description || '');
-    const link = escapeHtml(item.data.link || '#');
+    const link = item.data.link ? escapeHtml(item.data.link) : '';
     const price = escapeHtml(item.data.price || '');
     const available = item.data.available !== 'false';
     const stickers = item.data.stickers || [];
@@ -334,6 +411,14 @@ function renderTreasureItem(item) {
             `<img src="${escapeHtml(s.sticker || s)}" alt="" class="sticker" loading="lazy">`
           ).join('')}</div>`
         : '';
+
+    const linkHtml = link ? `
+                <a href="${link}"
+                   class="treasure-link"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    ${available ? 'get it' : 'sold out'}
+                </a>` : `<span class="treasure-link-placeholder">~ link coming soon ~</span>`;
 
     return `
         <article class="treasure-item${available ? '' : ' treasure-unavailable'}">
@@ -346,13 +431,7 @@ function renderTreasureItem(item) {
             <div class="treasure-details">
                 <h3 class="treasure-title">${title}</h3>
                 <p class="treasure-description">${description}</p>
-                ${price ? `<p class="treasure-price">${price}</p>` : ''}
-                <a href="${link}"
-                   class="treasure-link"
-                   target="_blank"
-                   rel="noopener noreferrer">
-                    ${available ? 'get it' : 'sold out'}
-                </a>
+                ${price ? `<p class="treasure-price">${price}</p>` : ''}${linkHtml}
             </div>
         </article>
     `;
@@ -366,6 +445,28 @@ function renderTreasureItem(item) {
  * Initialize home page
  */
 async function initHomePage() {
+    // Load homepage settings
+    const settings = await loadSettings('homepage.yml');
+    if (settings) {
+        const bioHeading = document.getElementById('bio-heading');
+        const bioBlurb = document.getElementById('bio-blurb');
+        const noteLabel = document.getElementById('note-label');
+        const weeklyNote = document.getElementById('weekly-note');
+
+        if (bioHeading && settings.bio_heading) {
+            bioHeading.textContent = settings.bio_heading;
+        }
+        if (bioBlurb && settings.bio_blurb) {
+            bioBlurb.textContent = settings.bio_blurb;
+        }
+        if (noteLabel && settings.weekly_note_label) {
+            noteLabel.textContent = settings.weekly_note_label;
+        }
+        if (weeklyNote && settings.weekly_note) {
+            weeklyNote.textContent = settings.weekly_note;
+        }
+    }
+
     // Load latest diary entries
     const diaryPreview = document.getElementById('diary-preview');
     if (diaryPreview) {
@@ -385,7 +486,7 @@ async function initHomePage() {
             );
             diaryPreview.innerHTML = validEntries.map(renderDiaryEntry).join('');
         } else {
-            diaryPreview.innerHTML = '<p class="no-content">No diary entries yet.</p>';
+            diaryPreview.innerHTML = '<p class="no-content">nothing here yet...</p>';
         }
     }
 
@@ -406,7 +507,7 @@ async function initHomePage() {
         if (featured.length > 0) {
             featuredContent.innerHTML = featured.map(renderMusicItem).join('');
         } else {
-            featuredContent.innerHTML = '<p class="no-content">Nothing featured yet.</p>';
+            featuredContent.innerHTML = '<p class="no-content">nothing featured yet...</p>';
         }
     }
 }
@@ -432,7 +533,7 @@ async function initDiaryPage() {
         );
         container.innerHTML = validEntries.map(renderDiaryEntry).join('');
     } else {
-        container.innerHTML = '<p class="no-content">No diary entries yet. Check back soon!</p>';
+        container.innerHTML = '<p class="no-content">nothing here yet... the ocean is quiet right now</p>';
     }
 }
 
@@ -457,7 +558,7 @@ async function initPhotosPage() {
         );
         container.innerHTML = validPhotos.map(renderPhotoItem).join('');
     } else {
-        container.innerHTML = '<p class="no-content">No photos yet. Check back soon!</p>';
+        container.innerHTML = '<p class="no-content">nothing here yet... waiting for new memories</p>';
     }
 }
 
@@ -482,7 +583,7 @@ async function initMusicPage() {
         );
         container.innerHTML = validItems.map(renderMusicItem).join('');
     } else {
-        container.innerHTML = '<p class="no-content">No art or music yet. Check back soon!</p>';
+        container.innerHTML = '<p class="no-content">nothing here yet... sounds are brewing</p>';
     }
 }
 
@@ -507,7 +608,7 @@ async function initArchivePage() {
         );
         container.innerHTML = validItems.map(renderArchiveItem).join('');
     } else {
-        container.innerHTML = '<p class="no-content">The archive is empty... for now.</p>';
+        container.innerHTML = '<p class="no-content">nothing here yet... the archive is still gathering dust</p>';
     }
 }
 
@@ -533,6 +634,50 @@ async function initTreasuresPage() {
         container.innerHTML = validItems.map(renderTreasureItem).join('');
     } else {
         container.innerHTML = '<p class="no-content">no treasures yet... check back soon!</p>';
+    }
+}
+
+/**
+ * Initialize messages page
+ */
+async function initMessagesPage() {
+    const settings = await loadSettings('messages.yml');
+    if (!settings) return;
+
+    const description = document.getElementById('messages-description');
+    const intro = document.getElementById('messages-intro');
+    const embedContainer = document.getElementById('message-embed');
+
+    if (description && settings.description) {
+        description.textContent = settings.description;
+    }
+
+    if (intro && settings.intro) {
+        intro.textContent = settings.intro;
+    }
+
+    if (embedContainer) {
+        if (settings.embed && settings.embed.trim()) {
+            // Has embed code - render it
+            embedContainer.innerHTML = settings.embed;
+        } else if (settings.link && settings.link.trim()) {
+            // No embed but has link - show link button
+            const linkText = settings.link_text || 'send me a message';
+            embedContainer.innerHTML = `
+                <a href="${escapeHtml(settings.link)}"
+                   class="message-external-link"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    ${escapeHtml(linkText)}
+                </a>`;
+        } else {
+            // No embed or link - show placeholder
+            embedContainer.innerHTML = `
+                <div class="embed-placeholder">
+                    <p>~ message box coming soon ~</p>
+                    <p class="embed-note">the ocean is quiet right now</p>
+                </div>`;
+        }
     }
 }
 
@@ -576,6 +721,9 @@ document.addEventListener('DOMContentLoaded', () => {
         case 'treasures':
             initTreasuresPage();
             break;
-        // 'random' and 'messages' pages are static/use external embeds
+        case 'messages':
+            initMessagesPage();
+            break;
+        // 'random' page is static
     }
 });

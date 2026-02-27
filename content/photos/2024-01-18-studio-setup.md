@@ -1,8 +1,7 @@
 ---
-image: /assets/images/uploads/studio-setup.jpg
-caption: "late night in the studio"
+image: ""
+caption: "nothing here yet..."
 date: 2024-01-18
-tags:
-  - studio
-  - music
+tags: []
+stickers: []
 ---

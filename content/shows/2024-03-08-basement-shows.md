@@ -1,8 +1,8 @@
 ---
-venue: "basement shows"
-location: "boston, ma"
+venue: "venue name"
+location: "city, state"
 date: 2024-03-08
-time: "dm for address"
+time: "time tba"
 ticket_link: ""
 notes: ""
 ---

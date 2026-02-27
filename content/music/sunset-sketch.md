@@ -1,8 +1,8 @@
 ---
-title: "sunset sketch"
+title: "first artwork"
 type: art
-description: "a quick digital sketch inspired by the colors of last night's sunset."
-link: https://example.com/art
+description: "nothing here yet..."
+link: ""
 embed: ""
 date: 2024-01-12
 featured: false

@@ -3,7 +3,8 @@
     "allow": [
       "WebFetch(domain:decapcms.org)",
       "WebSearch",
-      "Bash(lsof:*)"
+      "Bash(lsof:*)",
+      "Bash(ls:*)"
     ]
   }
 }

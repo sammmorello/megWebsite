@@ -1,9 +1,9 @@
 ---
-title: "demo tape vol. 1"
+title: "first release"
 type: music
-description: "four tracks recorded in my bedroom. lo-fi vibes, late night feels."
-link: https://example.bandcamp.com
+description: "nothing here yet..."
+link: ""
 embed: ""
 date: 2024-01-20
-featured: true
+featured: false
 ---
